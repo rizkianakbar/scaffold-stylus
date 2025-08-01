@@ -64,11 +64,12 @@ export default async function deployStylusContract(
     // Step 3: Verify the contract
     if (deployOptions.verify) {
       try {
-        await executeCommand(
+        const output = await executeCommand(
           `cargo stylus verify --endpoint=${config.chain?.rpcUrl} --deployment-tx=${deploymentInfo.txHash}`,
           deployOptions.contract!,
           "Verifying contract with cargo stylus",
         );
+        console.log(output);
       } catch (error) {
         console.error(
           `❌ Verification failed in: ${deployOptions.contract}`,

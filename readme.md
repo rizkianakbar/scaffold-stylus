@@ -210,14 +210,28 @@ yarn deploy --network <network>
 
 ## Verify your contract
 
+#### Prerequisites
+
+Your contract must meet Arbiscan's verification requirements:
+
+- No external libraries
+- No constructor arguments
+- No custom optimization settings
+- No specific compiler version requirements
+
 ### Local Verification
+
+Make sure your constructor does not contain any args
+
+```rs
+pub fn constructor(&mut self)
+```
 
 The scaffold includes built-in local verification to ensure your Stylus contract deployments are reproducible. To enable verification during deployment, set `verify: true` in your deployment script:
 
 ```ts
 await deployStylusContract({
   contract: "your-contract",
-  constructorArgs: [config.deployerAddress!],
   verify: true,
   ...deployOptions,
 });
@@ -232,14 +246,6 @@ This runs `cargo stylus verify` locally after deployment, which:
 ### Arbiscan Verification
 
 For public verification on Arbiscan, follow these steps:
-
-#### Prerequisites
-
-Your contract must meet Arbiscan's verification requirements:
-  - No external libraries
-  - No constructor arguments
-  - No custom optimization settings
-  - No specific compiler version requirements
 
 #### Steps
 
