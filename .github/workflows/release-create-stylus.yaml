@@ -136,7 +136,7 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: "GitHub Action succeeded for version bump to ${{ env.NEW_VERSION }}."
+          slack-message: "GitHub Action succeeded for version bump Scaffold-Stylus to ${{ env.NEW_VERSION }}."
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
@@ -145,6 +145,6 @@ jobs:
         uses: slackapi/slack-github-action@v1.26.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: "GitHub Action failed for version bump."
+          slack-message: "GitHub Action failed for version bump Scaffold-Stylus."
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
