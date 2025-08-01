@@ -73,6 +73,16 @@ jobs:
           echo "NEW_VERSION=${new_version}" >> "$GITHUB_ENV"
           git push origin main --follow-tags
 
+      - name: Merge main back to develop
+        id: merge-to-develop
+        run: |
+          cd source_repo
+          git fetch origin develop
+          git checkout develop
+          git pull origin develop --no-rebase --strategy=ort --no-edit
+          git merge main --no-edit -m "chore: merge main back to develop [skip ci]"
+          git push origin develop
+
       - name: Copy Files to Destination Repository
         run: |
           rsync -av --delete \
