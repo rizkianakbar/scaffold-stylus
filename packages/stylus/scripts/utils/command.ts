@@ -10,7 +10,7 @@ export async function buildDeployCommand(
 
   const constructorArgs =
     deployOptions.constructorArgs && deployOptions.constructorArgs.length > 0
-      ? `--constructor-args ${deployOptions.constructorArgs.map((arg) => `'${arg}'`).join(" ")}`
+      ? `--constructor-args ${deployOptions.constructorArgs.map((arg) => `'${String(arg)}'`).join(" ")}`
       : "";
 
   if (deployOptions.estimateGas) {
