@@ -31,6 +31,7 @@ module.exports = {
           "--rounded-btn": "9999rem",
           "--gradient-start": "#3283EB",
           "--gradient-end": "#E3066E",
+          "--border-color": "rgba(0, 0, 0, 0.07)",
 
           ".tooltip": {
             "--tooltip-tail": "6px",
@@ -68,6 +69,7 @@ module.exports = {
           "--rounded-btn": "9999rem",
           "--gradient-start": "#3283EB",
           "--gradient-end": "#E3066E",
+          "--border-color": "rgba(255, 255, 255, 0.20)",
 
           ".tooltip": {
             "--tooltip-tail": "6px",

@@ -31,6 +31,10 @@ p {
   @apply shadow-none;
 }
 
+.border-color {
+  border-color: var(--border-color);
+}
+
 .bg-surface {
   background-color: var(--surface);
   backdrop-filter: blur(24px);
