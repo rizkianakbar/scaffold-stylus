@@ -12,7 +12,7 @@ import {
 import { decodeTransactionData } from "~~/utils/scaffold-eth";
 import { arbitrumNitro } from "~~/utils/scaffold-stylus/chain";
 
-const BLOCKS_PER_PAGE = 20;
+const BLOCKS_PER_PAGE = 5;
 
 export const testClient = createTestClient({
   chain: arbitrumNitro,
