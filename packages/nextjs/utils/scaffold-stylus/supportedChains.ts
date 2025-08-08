@@ -42,4 +42,31 @@ const arbitrumNitro = defineChain({
   ],
 });
 
-export { arbitrum, arbitrumSepolia, arbitrumNova, arbitrumNitro };
+const arbitrumOrbitSuperposition = defineChain({
+  id: 55244,
+  name: "Superposition",
+  network: "superposition",
+  nativeCurrency: {
+    name: "Ether",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://rpc.superposition.so"],
+      webSocket: ["wss://rpc.superposition.so"],
+    },
+    public: {
+      http: ["https://rpc.superposition.so"],
+      webSocket: ["wss://rpc.superposition.so"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Superposition Explorer",
+      url: "https://explorer.superposition.so",
+    },
+  },
+});
+
+export { arbitrum, arbitrumSepolia, arbitrumNova, arbitrumNitro, arbitrumOrbitSuperposition };
