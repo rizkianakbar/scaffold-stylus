@@ -1,6 +1,6 @@
 import { arbitrum, arbitrumSepolia } from "viem/chains";
 import { Address, Chain } from "viem";
-import { arbitrumNitro } from "../../../nextjs/utils/scaffold-stylus/chain";
+import { arbitrumNitro } from "../../../nextjs/utils/scaffold-stylus/supportedChains";
 import * as path from "path";
 import * as fs from "fs";
 import { config as dotenvConfig } from "dotenv";

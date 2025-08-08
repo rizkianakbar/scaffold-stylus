@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { arbitrumNitro } from "./utils/scaffold-stylus/chain";
+import { arbitrumNitro } from "./utils/scaffold-stylus/supportedChains";
 import * as chains from "viem/chains";
 
 export type ScaffoldConfig = {
