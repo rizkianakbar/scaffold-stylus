@@ -2,6 +2,7 @@ import { arbitrum, arbitrumNova, arbitrumSepolia } from "viem/chains";
 import { Address, Chain } from "viem";
 import {
   arbitrumNitro,
+  arbitrumOrbitSuperposition,
   eduChainTestnet,
 } from "../../../nextjs/utils/scaffold-stylus/supportedChains";
 import * as path from "path";
@@ -20,6 +21,7 @@ export const SUPPORTED_NETWORKS: Record<string, Chain> = {
   arbitrumNitro: arbitrumNitro as Chain,
   arbitrumNova: arbitrumNova as Chain,
   eduChainTestnet: eduChainTestnet as unknown as Chain,
+  arbitrumOrbitSuperposition: arbitrumOrbitSuperposition as Chain,
 };
 
 export const ALIASES: Record<string, string> = {
@@ -28,6 +30,7 @@ export const ALIASES: Record<string, string> = {
   devnet: "arbitrumNitro",
   nova: "arbitrumNova",
   educhain_testnet: "educhainTestnet",
+  superposition: "arbitrumOrbitSuperposition",
 };
 
 export function getChain(networkName: string): SupportedNetworkMinimal | null {
@@ -86,6 +89,12 @@ export function getPrivateKey(networkName: string): string {
       } else {
         throw new Error("PRIVATE_KEY_EDUCHAIN_TESTNET is not set");
       }
+    case "arbitrumorbitsuperposition":
+      if (process.env["PRIVATE_KEY_ORBIT_SUPERPOSITION"]) {
+        return process.env["PRIVATE_KEY_ORBIT_SUPERPOSITION"];
+      } else {
+        throw new Error("PRIVATE_KEY_ORBIT_SUPERPOSITION is not set");
+      }
     default:
       return (
         process.env["PRIVATE_KEY"] ||
@@ -105,6 +114,8 @@ export const getAccountAddress = (networkName: string): Address | undefined => {
       return process.env["ACCOUNT_ADDRESS_NOVA"] as Address;
     case "educhaintestnet":
       return process.env["ACCOUNT_ADDRESS_EDUCHAIN_TESTNET"] as Address;
+    case "arbitrumorbitsuperposition":
+      return process.env["ACCOUNT_ADDRESS_ORBIT_SUPERPOSITION"] as Address;
     default:
       return (
         (process.env["ACCOUNT_ADDRESS"] as Address) ||
@@ -134,6 +145,11 @@ function getRpcUrlFromChain(chain: Chain): string {
     case eduChainTestnet.id:
       if (process.env["RPC_URL_EDUCHAIN_TESTNET"]) {
         return process.env["RPC_URL_EDUCHAIN_TESTNET"];
+      }
+      break;
+    case arbitrumOrbitSuperposition.id:
+      if (process.env["RPC_URL_ORBIT_SUPERPOSITION"]) {
+        return process.env["RPC_URL_ORBIT_SUPERPOSITION"];
       }
       break;
     default:
