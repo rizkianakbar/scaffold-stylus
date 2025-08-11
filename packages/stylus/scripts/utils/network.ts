@@ -1,9 +1,6 @@
 import { arbitrum, arbitrumNova, arbitrumSepolia } from "viem/chains";
 import { Address, Chain } from "viem";
-import {
-  arbitrumNitro,
-  eduChainTestnet,
-} from "../../../nextjs/utils/scaffold-stylus/supportedChains";
+import { arbitrumNitro } from "../../../nextjs/utils/scaffold-stylus/supportedChains";
 import * as path from "path";
 import * as fs from "fs";
 import { config as dotenvConfig } from "dotenv";
@@ -19,7 +16,6 @@ export const SUPPORTED_NETWORKS: Record<string, Chain> = {
   arbitrumSepolia,
   arbitrumNitro: arbitrumNitro as Chain,
   arbitrumNova: arbitrumNova as Chain,
-  eduChainTestnet: eduChainTestnet as unknown as Chain,
 };
 
 export const ALIASES: Record<string, string> = {
@@ -27,7 +23,6 @@ export const ALIASES: Record<string, string> = {
   sepolia: "arbitrumSepolia",
   devnet: "arbitrumNitro",
   nova: "arbitrumNova",
-  educhain_testnet: "educhainTestnet",
 };
 
 export function getChain(networkName: string): SupportedNetworkMinimal | null {
@@ -80,12 +75,6 @@ export function getPrivateKey(networkName: string): string {
       } else {
         throw new Error("PRIVATE_KEY_NOVA is not set");
       }
-    case "educhaintestnet":
-      if (process.env["PRIVATE_KEY_EDUCHAIN_TESTNET"]) {
-        return process.env["PRIVATE_KEY_EDUCHAIN_TESTNET"];
-      } else {
-        throw new Error("PRIVATE_KEY_EDUCHAIN_TESTNET is not set");
-      }
     default:
       return (
         process.env["PRIVATE_KEY"] ||
@@ -103,8 +92,6 @@ export const getAccountAddress = (networkName: string): Address | undefined => {
       return process.env["ACCOUNT_ADDRESS_SEPOLIA"] as Address;
     case "arbitrumnova":
       return process.env["ACCOUNT_ADDRESS_NOVA"] as Address;
-    case "educhaintestnet":
-      return process.env["ACCOUNT_ADDRESS_EDUCHAIN_TESTNET"] as Address;
     default:
       return (
         (process.env["ACCOUNT_ADDRESS"] as Address) ||
@@ -129,11 +116,6 @@ function getRpcUrlFromChain(chain: Chain): string {
     case arbitrumNova.id:
       if (process.env["RPC_URL_NOVA"]) {
         return process.env["RPC_URL_NOVA"];
-      }
-      break;
-    case eduChainTestnet.id:
-      if (process.env["RPC_URL_EDUCHAIN_TESTNET"]) {
-        return process.env["RPC_URL_EDUCHAIN_TESTNET"];
       }
       break;
     default:
