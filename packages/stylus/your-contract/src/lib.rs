@@ -170,70 +170,70 @@ impl IOwnable for YourContract {
     }
 }
 
-// #[cfg(test)]
-// mod test {
-//     use super::*;
-//     use stylus_sdk::testing::*;
+#[cfg(test)]
+mod test {
+    use super::*;
+    use stylus_sdk::testing::*;
 
-//     #[test]
-//     fn test_your_contract() {
-//         let vm = TestVM::default();
-//         let mut contract = YourContract::from(&vm);
+    #[test]
+    fn test_your_contract() {
+        let vm = TestVM::default();
+        let mut contract = YourContract::from(&vm);
 
-//         // Test initialization
-//         let owner_addr = Address::from([1u8; 20]);
-//         contract.init(owner_addr);
+        // Test initialization
+        let owner_addr = Address::from([1u8; 20]);
+        contract.init(owner_addr);
 
-//         assert_eq!(contract.owner(), owner_addr);
-//         assert_eq!(contract.greeting(), "Building Unstoppable Apps!!!");
-//         assert_eq!(contract.premium(), false);
-//         assert_eq!(contract.total_counter(), U256::ZERO);
+        assert_eq!(contract.owner(), owner_addr);
+        assert_eq!(contract.greeting(), "Building Unstoppable Apps!!!");
+        assert_eq!(contract.premium(), false);
+        assert_eq!(contract.total_counter(), U256::ZERO);
 
-//         // Test setting greeting without payment
-//         contract.set_greeting("Hello World".to_string());
-//         assert_eq!(contract.greeting(), "Hello World");
-//         assert_eq!(contract.premium(), false);
-//         assert_eq!(contract.total_counter(), U256::from(1));
+        // Test setting greeting without payment
+        contract.set_greeting("Hello World".to_string());
+        assert_eq!(contract.greeting(), "Hello World");
+        assert_eq!(contract.premium(), false);
+        assert_eq!(contract.total_counter(), U256::from(1));
 
-//         // Test user greeting counter
-//         let sender = vm.addr();
-//         assert_eq!(contract.user_greeting_counter(sender), U256::from(1));
+        // Test user greeting counter
+        let sender = vm.addr();
+        assert_eq!(contract.user_greeting_counter(sender), U256::from(1));
 
-//         // Test setting greeting with payment
-//         vm.set_value(U256::from(100));
-//         contract.set_greeting("Premium Hello".to_string());
-//         assert_eq!(contract.greeting(), "Premium Hello");
-//         assert_eq!(contract.premium(), true);
-//         assert_eq!(contract.total_counter(), U256::from(2));
-//         assert_eq!(contract.user_greeting_counter(sender), U256::from(2));
-//     }
+        // Test setting greeting with payment
+        vm.set_value(U256::from(100));
+        contract.set_greeting("Premium Hello".to_string());
+        assert_eq!(contract.greeting(), "Premium Hello");
+        assert_eq!(contract.premium(), true);
+        assert_eq!(contract.total_counter(), U256::from(2));
+        assert_eq!(contract.user_greeting_counter(sender), U256::from(2));
+    }
 
-//     #[test]
-//     fn test_withdraw() {
-//         let vm = TestVM::default();
-//         let mut contract = YourContract::from(&vm);
+    #[test]
+    fn test_withdraw() {
+        let vm = TestVM::default();
+        let mut contract = YourContract::from(&vm);
 
-//         // Initialize with owner
-//         let owner_addr = vm.addr(); // Use VM address as owner for testing
-//         contract.init(owner_addr);
+        // Initialize with owner
+        let owner_addr = vm.addr(); // Use VM address as owner for testing
+        contract.init(owner_addr);
 
-//         // Test withdraw (in real scenario, contract would have received ETH)
-//         let result = contract.withdraw();
-//         assert!(result.is_ok()); // Should not panic since caller is owner
-//     }
+        // Test withdraw (in real scenario, contract would have received ETH)
+        let result = contract.withdraw();
+        assert!(result.is_ok()); // Should not panic since caller is owner
+    }
 
-//     #[test]
-//     fn test_withdraw_not_owner() {
-//         let vm = TestVM::default();
-//         let mut contract = YourContract::from(&vm);
+    #[test]
+    fn test_withdraw_not_owner() {
+        let vm = TestVM::default();
+        let mut contract = YourContract::from(&vm);
 
-//         // Initialize with different owner
-//         let owner_addr = Address::from([1u8; 20]);
-//         contract.init(owner_addr);
+        // Initialize with different owner
+        let owner_addr = Address::from([1u8; 20]);
+        contract.init(owner_addr);
 
-//         // This test should panic with "Not the Owner" when withdraw is called by non-owner
-//         // In a real test environment, you'd want to test this more carefully
-//         // but for now we'll just verify the function exists
-//         assert_eq!(contract.owner(), owner_addr);
-//     }
-// }
+        // This test should panic with "Not the Owner" when withdraw is called by non-owner
+        // In a real test environment, you'd want to test this more carefully
+        // but for now we'll just verify the function exists
+        assert_eq!(contract.owner(), owner_addr);
+    }
+}
