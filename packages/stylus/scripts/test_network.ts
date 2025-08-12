@@ -21,9 +21,11 @@ function testNetworkFunctionality() {
     console.log(
       `  yarn deploy --network ${chain?.name}\t# Deploy to ${chain?.name}`,
     );
-    console.log(
-      `  yarn deploy --network ${chain?.alias}\t\t# Deploy to ${chain?.name} (alias)`,
-    );
+
+    // TODO: determine which one to use later, for now we use all original names
+    // console.log(
+    //   `  yarn deploy --network ${chain?.alias}\t\t# Deploy to ${chain?.name} (alias)`,
+    // );
   });
 }
 
