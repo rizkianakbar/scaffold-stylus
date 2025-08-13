@@ -170,15 +170,15 @@ impl IOwnable for YourContract {
     }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn emit_log(_pointer: *const u8, _len: usize, _: usize) {}
-
-#[no_mangle]
-pub unsafe extern "C" fn msg_sender(_sender: *mut u8) {}
 #[cfg(test)]
 mod test {
     use super::*;
     use stylus_sdk::testing::*;
+
+    #[no_mangle]
+    pub unsafe extern "C" fn emit_log(_pointer: *const u8, _len: usize, _: usize) {}
+    #[no_mangle]
+    pub unsafe extern "C" fn msg_sender(_sender: *mut u8) {}
 
     #[test]
     fn test_your_contract() {
