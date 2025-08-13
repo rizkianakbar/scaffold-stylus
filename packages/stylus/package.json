@@ -12,7 +12,7 @@
     "info:networks": "ts-node scripts/test_network.ts",
     "export-abi": "ts-node scripts/export_abi.ts",
     "clean-contracts": "git clean -xdf -e .env -e your-contract/ -e node_modules/",
-    "test": "cargo test",
+    "test": "ts-node scripts/test.ts",
     "lint": "eslint scripts --ext .ts",
     "lint:fix": "eslint scripts --ext .ts --fix",
     "new-module": "bash scripts/new_module.sh"
