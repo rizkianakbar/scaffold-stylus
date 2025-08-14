@@ -2,8 +2,9 @@ import { arbitrum, arbitrumNova, arbitrumSepolia } from "viem/chains";
 import { Address, Chain } from "viem";
 import {
   arbitrumNitro,
-  arbitrumOrbitSuperposition,
+  superposition,
   eduChainTestnet,
+  superpositionTestnet,
 } from "../../../nextjs/utils/scaffold-stylus/supportedChains";
 import * as path from "path";
 import * as fs from "fs";
@@ -21,7 +22,8 @@ export const SUPPORTED_NETWORKS: Record<string, Chain> = {
   arbitrumNitro: arbitrumNitro as Chain,
   arbitrumNova: arbitrumNova as Chain,
   eduChainTestnet: eduChainTestnet as unknown as Chain,
-  arbitrumOrbitSuperposition: arbitrumOrbitSuperposition as Chain,
+  superposition: superposition as Chain,
+  superpositionTestnet: superpositionTestnet as Chain,
 };
 
 export const ALIASES: Record<string, string> = {
@@ -30,7 +32,8 @@ export const ALIASES: Record<string, string> = {
   devnet: "arbitrumNitro",
   nova: "arbitrumNova",
   educhain_testnet: "educhainTestnet",
-  superposition: "arbitrumOrbitSuperposition",
+  superposition: "superposition",
+  superposition_testnet: "superpositionTestnet",
 };
 
 export function getChain(networkName: string): SupportedNetworkMinimal | null {
@@ -89,11 +92,17 @@ export function getPrivateKey(networkName: string): string {
       } else {
         throw new Error("PRIVATE_KEY_EDUCHAIN_TESTNET is not set");
       }
-    case "arbitrumorbitsuperposition":
-      if (process.env["PRIVATE_KEY_ORBIT_SUPERPOSITION"]) {
-        return process.env["PRIVATE_KEY_ORBIT_SUPERPOSITION"];
+    case "superposition":
+      if (process.env["PRIVATE_KEY_SUPERPOSITION"]) {
+        return process.env["PRIVATE_KEY_SUPERPOSITION"];
       } else {
-        throw new Error("PRIVATE_KEY_ORBIT_SUPERPOSITION is not set");
+        throw new Error("PRIVATE_KEY_SUPERPOSITION is not set");
+      }
+    case "superpositiontestnet":
+      if (process.env["PRIVATE_KEY_SUPERPOSITION_TESTNET"]) {
+        return process.env["PRIVATE_KEY_SUPERPOSITION_TESTNET"];
+      } else {
+        throw new Error("PRIVATE_KEY_SUPERPOSITION_TESTNET is not set");
       }
     default:
       return (
@@ -114,8 +123,10 @@ export const getAccountAddress = (networkName: string): Address | undefined => {
       return process.env["ACCOUNT_ADDRESS_NOVA"] as Address;
     case "educhaintestnet":
       return process.env["ACCOUNT_ADDRESS_EDUCHAIN_TESTNET"] as Address;
-    case "arbitrumorbitsuperposition":
-      return process.env["ACCOUNT_ADDRESS_ORBIT_SUPERPOSITION"] as Address;
+    case "superposition":
+      return process.env["ACCOUNT_ADDRESS_SUPERPOSITION"] as Address;
+    case "superpositiontestnet":
+      return process.env["ACCOUNT_ADDRESS_SUPERPOSITION_TESTNET"] as Address;
     default:
       return (
         (process.env["ACCOUNT_ADDRESS"] as Address) ||
@@ -147,9 +158,14 @@ function getRpcUrlFromChain(chain: Chain): string {
         return process.env["RPC_URL_EDUCHAIN_TESTNET"];
       }
       break;
-    case arbitrumOrbitSuperposition.id:
-      if (process.env["RPC_URL_ORBIT_SUPERPOSITION"]) {
-        return process.env["RPC_URL_ORBIT_SUPERPOSITION"];
+    case superposition.id:
+      if (process.env["RPC_URL_SUPERPOSITION"]) {
+        return process.env["RPC_URL_SUPERPOSITION"];
+      }
+      break;
+    case superpositionTestnet.id:
+      if (process.env["RPC_URL_SUPERPOSITION_TESTNET"]) {
+        return process.env["RPC_URL_SUPERPOSITION_TESTNET"];
       }
       break;
     default:

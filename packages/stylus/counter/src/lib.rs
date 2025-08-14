@@ -46,7 +46,7 @@ sol_storage! {
 #[public]
 impl Counter {
     pub fn initialize(&mut self, initial_number: U256) {
-        if (!self.is_initialized.get()) {
+        if !self.is_initialized.get() {
             self.number.set(initial_number);
             self.is_initialized.set(true);
         } else {
