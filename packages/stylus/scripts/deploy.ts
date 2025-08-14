@@ -26,20 +26,21 @@ export default async function deployScript(deployOptions: DeployOptions) {
   console.log(`\n`);
 
   // Deploy a single contract
-  // await deployStylusContract({
-  //   contract: "your-contract",
-  //   constructorArgs: [config.deployerAddress!],
-  //   ...deployOptions,
-  // });
-
   await deployStylusContract({
-    contract: "counter",
-    constructorArgs: [100],
-    isOrbit: true,
+    contract: "your-contract",
+    constructorArgs: [config.deployerAddress!],
     ...deployOptions,
   });
 
-  /// Deploy your contract with a custom name
+  // EXAMPLE: Deploy to Orbit Chains, uncomment to try
+  // await deployStylusContract({
+  //   contract: "counter",
+  //   constructorArgs: [100],
+  //   isOrbit: true,
+  //   ...deployOptions,
+  // });
+
+  // EXAMPLE: Deploy your contract with a custom name, uncomment to try
   // await deployStylusContract({
   //   contract: "your-contract",
   //   constructorArgs: [config.deployerAddress],
