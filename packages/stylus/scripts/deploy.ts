@@ -26,9 +26,16 @@ export default async function deployScript(deployOptions: DeployOptions) {
   console.log(`\n`);
 
   // Deploy a single contract
+  // await deployStylusContract({
+  //   contract: "your-contract",
+  //   constructorArgs: [config.deployerAddress!],
+  //   ...deployOptions,
+  // });
+
   await deployStylusContract({
-    contract: "your-contract",
-    constructorArgs: [config.deployerAddress!],
+    contract: "counter",
+    constructorArgs: [100],
+    isOrbit: true,
     ...deployOptions,
   });
 
