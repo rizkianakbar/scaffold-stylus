@@ -4,6 +4,7 @@ import {
   executeCommand,
   extractDeploymentInfo,
   saveDeployment,
+  ORBIT_CHAINS,
   // estimateGasPrice,
 } from "./utils/";
 import { exportStylusAbi } from "./export_abi";
@@ -12,12 +13,7 @@ import { buildDeployCommand } from "./utils/command";
 import { Chain, createPublicClient, createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 
-import {
-  arbitrumNitro,
-  eduChainTestnet,
-  superposition,
-  superpositionTestnet,
-} from "../../nextjs/utils/scaffold-stylus/supportedChains";
+import { arbitrumNitro } from "../../nextjs/utils/scaffold-stylus/supportedChains";
 import deployedContracts from "../../nextjs/contracts/deployedContracts";
 
 /**
@@ -76,13 +72,6 @@ export default async function deployStylusContract(
       !!deployOptions.isOrbit &&
       config.chain?.id !== arbitrumNitro?.id.toString()
     ) {
-      // TODO: add more compatible chains
-      const ORBIT_CHAINS = [
-        eduChainTestnet,
-        superpositionTestnet,
-        superposition,
-      ];
-
       const orbitChain = ORBIT_CHAINS.find(
         (chain) => chain.id.toString() === config.chain?.id,
       );

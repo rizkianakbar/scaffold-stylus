@@ -39,6 +39,14 @@ export const ALIASES: Record<string, string> = {
   superposition_testnet: "superpositionTestnet",
 };
 
+// TODO: add more compatible Orbit Chains here
+export const ORBIT_CHAINS: Chain[] = [
+  eduChain as unknown as Chain,
+  eduChainTestnet as unknown as Chain,
+  superposition as Chain,
+  superpositionTestnet as Chain,
+];
+
 export function getChain(networkName: string): SupportedNetworkMinimal | null {
   try {
     const actualNetworkName = ALIASES[networkName.toLowerCase()] || networkName;
