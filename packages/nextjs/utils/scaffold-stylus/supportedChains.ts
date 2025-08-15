@@ -1,5 +1,5 @@
 import { defineChain } from "viem";
-import { arbitrum, arbitrumSepolia, arbitrumNova, eduChainTestnet, eduChain } from "viem/chains";
+import { arbitrum, arbitrumSepolia, arbitrumNova, eduChainTestnet, eduChain, superposition } from "viem/chains";
 
 const arbitrumNitro = defineChain({
   id: 412346,
@@ -40,33 +40,6 @@ const arbitrumNitro = defineChain({
       address: "0xA491d1134388c78AeEDf6b1Ca3F21657015Ff8E1",
     },
   ],
-});
-
-const superposition = defineChain({
-  id: 55244,
-  name: "Superposition",
-  network: "superposition",
-  nativeCurrency: {
-    name: "Ether",
-    symbol: "ETH",
-    decimals: 18,
-  },
-  rpcUrls: {
-    default: {
-      http: ["https://rpc.superposition.so"],
-      webSocket: ["wss://rpc.superposition.so"],
-    },
-    public: {
-      http: ["https://rpc.superposition.so"],
-      webSocket: ["wss://rpc.superposition.so"],
-    },
-  },
-  blockExplorers: {
-    default: {
-      name: "Superposition Explorer",
-      url: "https://explorer.superposition.so",
-    },
-  },
 });
 
 const superpositionTestnet = defineChain({
