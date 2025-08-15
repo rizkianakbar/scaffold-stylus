@@ -5,6 +5,7 @@ import {
   superposition,
   eduChainTestnet,
   superpositionTestnet,
+  eduChain,
 } from "../../../nextjs/utils/scaffold-stylus/supportedChains";
 import * as path from "path";
 import * as fs from "fs";
@@ -22,6 +23,7 @@ export const SUPPORTED_NETWORKS: Record<string, Chain> = {
   arbitrumNitro: arbitrumNitro as Chain,
   arbitrumNova: arbitrumNova as Chain,
   eduChainTestnet: eduChainTestnet as unknown as Chain,
+  eduChain: eduChain as unknown as Chain,
   superposition: superposition as Chain,
   superpositionTestnet: superpositionTestnet as Chain,
 };
@@ -32,6 +34,7 @@ export const ALIASES: Record<string, string> = {
   devnet: "arbitrumNitro",
   nova: "arbitrumNova",
   educhain_testnet: "educhainTestnet",
+  educhain: "eduChain",
   superposition: "superposition",
   superposition_testnet: "superpositionTestnet",
 };
@@ -92,6 +95,12 @@ export function getPrivateKey(networkName: string): string {
       } else {
         throw new Error("PRIVATE_KEY_EDUCHAIN_TESTNET is not set");
       }
+    case "educhain":
+      if (process.env["PRIVATE_KEY_EDUCHAIN"]) {
+        return process.env["PRIVATE_KEY_EDUCHAIN"];
+      } else {
+        throw new Error("PRIVATE_KEY_EDUCHAIN is not set");
+      }
     case "superposition":
       if (process.env["PRIVATE_KEY_SUPERPOSITION"]) {
         return process.env["PRIVATE_KEY_SUPERPOSITION"];
@@ -123,6 +132,8 @@ export const getAccountAddress = (networkName: string): Address | undefined => {
       return process.env["ACCOUNT_ADDRESS_NOVA"] as Address;
     case "educhaintestnet":
       return process.env["ACCOUNT_ADDRESS_EDUCHAIN_TESTNET"] as Address;
+    case "educhain":
+      return process.env["ACCOUNT_ADDRESS_EDUCHAIN"] as Address;
     case "superposition":
       return process.env["ACCOUNT_ADDRESS_SUPERPOSITION"] as Address;
     case "superpositiontestnet":
@@ -156,6 +167,11 @@ function getRpcUrlFromChain(chain: Chain): string {
     case eduChainTestnet.id:
       if (process.env["RPC_URL_EDUCHAIN_TESTNET"]) {
         return process.env["RPC_URL_EDUCHAIN_TESTNET"];
+      }
+      break;
+    case eduChain.id:
+      if (process.env["RPC_URL_EDUCHAIN"]) {
+        return process.env["RPC_URL_EDUCHAIN"];
       }
       break;
     case superposition.id:
