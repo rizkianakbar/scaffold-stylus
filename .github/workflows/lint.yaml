@@ -61,6 +61,17 @@ jobs:
           target: ${{ steps.parse-toolchain.outputs.targets }}
           override: true
 
+      - name: Install cargo-stylus
+        run: |
+          # Check if cargo-stylus is already installed and up to date
+          if command -v cargo-stylus &> /dev/null; then
+            echo "cargo-stylus already installed, checking version..."
+            cargo-stylus --version
+          else
+            echo "Installing cargo-stylus..."
+            cargo install --force cargo-stylus
+          fi
+
       - name: Cache Rust dependencies
         uses: actions/cache@v3
         with:
@@ -85,17 +96,6 @@ jobs:
           key: foundry-${{ runner.os }}-${{ steps.cache-key.outputs.cache-key }}
           restore-keys: |
             foundry-${{ runner.os }}-
-
-      - name: Install cargo-stylus
-        run: |
-          # Check if cargo-stylus is already installed and up to date
-          if command -v cargo-stylus &> /dev/null; then
-            echo "cargo-stylus already installed, checking version..."
-            cargo-stylus --version
-          else
-            echo "Installing cargo-stylus..."
-            cargo install --force cargo-stylus
-          fi
 
       - name: Install dependencies
         run: yarn install --immutable
