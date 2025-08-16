@@ -53,6 +53,12 @@ jobs:
       - name: Install foundry cast
         uses: foundry-rs/foundry-toolchain@v1
 
+      - name: Install solc
+        run: |
+          add-apt-repository ppa:ethereum/ethereum -y
+          apt-get update
+          apt-get install solc -y
+
       - name: Modify scaffoldConfig in Source Repository
         run: |
           cd source_repo
