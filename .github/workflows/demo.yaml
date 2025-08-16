@@ -55,9 +55,9 @@ jobs:
 
       - name: Install solc
         run: |
-          add-apt-repository ppa:ethereum/ethereum -y
-          apt-get update
-          apt-get install solc -y
+          sudo add-apt-repository ppa:ethereum/ethereum -y
+          sudo apt-get update
+          sudo apt-get install solc -y
 
       - name: Modify scaffoldConfig in Source Repository
         run: |
