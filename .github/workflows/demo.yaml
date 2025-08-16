@@ -1,17 +1,15 @@
 name: scaffold-stylus-demo workflow
 
 on:
-  # pull_request:
-  #   types: [closed]
-  #   branches: [develop]
-  #   paths:
-  #     - "packages/nextjs/**"
-  push:
-    branches: [feat/workflow]
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+      - "packages/nextjs/**"
 
 jobs:
   version-bump-stylus:
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Source Repository
@@ -101,20 +99,20 @@ jobs:
           vercel link --yes --project $VERCEL_PROJECT_ID --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
           yarn vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true --build-env NEXT_PUBLIC_SEPOLIA_PROVIDER_URL=$RPC_URL_SEPOLIA --prod --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
 
-      # - name: Notify Slack on Success
-      #   if: success()
-      #   uses: slackapi/slack-github-action@v1.26.0
-      #   with:
-      #     channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-      #     slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-      #   env:
-      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Notify Slack on Success
+        if: success()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      # - name: Notify Slack on Failure
-      #   if: failure()
-      #   uses: slackapi/slack-github-action@v1.26.0
-      #   with:
-      #     channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-      #     slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-      #   env:
-      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Notify Slack on Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
