@@ -1,15 +1,17 @@
-name: scaffold-stark-demo workflow
+name: scaffold-stylus-demo workflow
 
 on:
-  pull_request:
-    types: [closed]
-    branches: [main]
-    paths:
-      - "packages/nextjs/**"
+  # pull_request:
+  #   types: [closed]
+  #   branches: [develop]
+  #   paths:
+  #     - "packages/nextjs/**"
+  push:
+    branches: [feat/workflow]
 
 jobs:
   version-bump-stylus:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout Source Repository
@@ -27,12 +29,12 @@ jobs:
           CHANNEL=$(grep -o 'channel = "[^"]*"' packages/stylus/your-contract/rust-toolchain.toml | cut -d'"' -f2)
           echo "toolchain=$CHANNEL" >> $GITHUB_OUTPUT
 
-          # Extract components
-          COMPONENTS=$(grep -A 10 'components = \[' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
+          # Extract components (only from the components section)
+          COMPONENTS=$(awk '/components = \[/,/\]/' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
           echo "components=$COMPONENTS" >> $GITHUB_OUTPUT
 
-          # Extract targets
-          TARGETS=$(grep -A 5 'targets = \[' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
+          # Extract targets (only from the targets section)
+          TARGETS=$(awk '/targets = \[/,/\]/' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
           echo "targets=$TARGETS" >> $GITHUB_OUTPUT
 
       - name: Install Rust
@@ -85,20 +87,20 @@ jobs:
           vercel link --yes --project $VERCEL_PROJECT_ID --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
           vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true --build-env NEXT_PUBLIC_SEPOLIA_PROVIDER_URL=$RPC_URL_SEPOLIA --prod --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
 
-      - name: Notify Slack on Success
-        if: success()
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      # - name: Notify Slack on Success
+      #   if: success()
+      #   uses: slackapi/slack-github-action@v1.26.0
+      #   with:
+      #     channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+      #     slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      - name: Notify Slack on Failure
-        if: failure()
-        uses: slackapi/slack-github-action@v1.26.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      # - name: Notify Slack on Failure
+      #   if: failure()
+      #   uses: slackapi/slack-github-action@v1.26.0
+      #   with:
+      #     channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+      #     slack-message: "GitHub deployed to vercel result: ${{ job.status }}\nRepository Name: ${{ github.repository }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
