@@ -41,7 +41,6 @@ jobs:
       - name: Parse rust-toolchain.toml
         id: parse-toolchain
         run: |
-          cd source_repo
           # Extract channel/version
           CHANNEL=$(grep -o 'channel = "[^"]*"' packages/stylus/your-contract/rust-toolchain.toml | cut -d'"' -f2)
           echo "toolchain=$CHANNEL" >> $GITHUB_OUTPUT
