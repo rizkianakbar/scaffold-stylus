@@ -1,4 +1,4 @@
-name: scaffold-stark-demo workflow
+name: scaffold-stylus-demo workflow
 
 on:
   pull_request:
@@ -27,12 +27,12 @@ jobs:
           CHANNEL=$(grep -o 'channel = "[^"]*"' packages/stylus/your-contract/rust-toolchain.toml | cut -d'"' -f2)
           echo "toolchain=$CHANNEL" >> $GITHUB_OUTPUT
 
-          # Extract components
-          COMPONENTS=$(grep -A 10 'components = \[' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
+          # Extract components (only from the components section, without quotes)
+          COMPONENTS=$(awk '/components = \[/,/\]/' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | sed 's/"//g' | tr '\n' ',' | sed 's/,$//')
           echo "components=$COMPONENTS" >> $GITHUB_OUTPUT
 
-          # Extract targets
-          TARGETS=$(grep -A 5 'targets = \[' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | tr '\n' ',' | sed 's/,$//')
+          # Extract targets (only from the targets section, without quotes)
+          TARGETS=$(awk '/targets = \[/,/\]/' packages/stylus/your-contract/rust-toolchain.toml | grep -o '"[^"]*"' | sed 's/"//g' | tr '\n' ',' | sed 's/,$//')
           echo "targets=$TARGETS" >> $GITHUB_OUTPUT
 
       - name: Install Rust
@@ -43,6 +43,20 @@ jobs:
           target: ${{ steps.parse-toolchain.outputs.targets }}
           override: true
 
+      - name: Install cargo-stylus
+        run: |
+          cd source_repo
+          cargo install --force cargo-stylus
+
+      - name: Install foundry cast
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Install solc
+        run: |
+          sudo add-apt-repository ppa:ethereum/ethereum -y
+          sudo apt-get update
+          sudo apt-get install solc -y
+
       - name: Modify scaffoldConfig in Source Repository
         run: |
           cd source_repo
@@ -52,7 +66,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24
           registry-url: "https://registry.yarnpkg.com"
 
       # TODO: setup yarn cache
@@ -81,9 +95,9 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           RPC_URL_SEPOLIA: ${{ secrets.RPC_URL_SEPOLIA }}
         run: |
-          cd source_repo
+          cd source_repo/packages/nextjs
           vercel link --yes --project $VERCEL_PROJECT_ID --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
-          vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true --build-env NEXT_PUBLIC_SEPOLIA_PROVIDER_URL=$RPC_URL_SEPOLIA --prod --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
+          yarn vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true --build-env NEXT_PUBLIC_SEPOLIA_PROVIDER_URL=$RPC_URL_SEPOLIA --prod --token $VERCEL_TOKEN --scope $VERCEL_ORG_ID
 
       - name: Notify Slack on Success
         if: success()
