@@ -61,6 +61,7 @@ export function getChain(networkName: string): SupportedNetworkMinimal | null {
         alias: getAliasFromNetworkName(chainEntry[0]),
         id: chainEntry[1].id.toString(),
         rpcUrl: getRpcUrlFromChain(chainEntry[1]),
+        blockExplorerUrl: chainEntry[1].blockExplorers?.default?.url,
       };
     }
 
