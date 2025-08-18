@@ -42,26 +42,25 @@ jobs:
           else
             echo "Injecting deploy calls into $FILE"
             cat > /tmp/deploy_block.txt <<'EOF'
-              await deployStylusContract({
-                contract: "bulletproofs",
-                ...deployOptions,
-              });
-              
-              await deployStylusContract({
-                contract: "counter",
-                ...deployOptions,
-              });
-              
-              await deployStylusContract({
-                contract: "signed",
-                ...deployOptions,
-              });
-              
-              await deployStylusContract({
-                contract: "unsigned",
-                ...deployOptions,
-              });
-
+            await deployStylusContract({
+              contract: "bulletproofs",
+              ...deployOptions,
+            });
+            
+            await deployStylusContract({
+              contract: "counter",
+              ...deployOptions,
+            });
+            
+            await deployStylusContract({
+              contract: "signed",
+              ...deployOptions,
+            });
+            
+            await deployStylusContract({
+              contract: "unsigned",
+              ...deployOptions,
+            });
           EOF
             awk -v block="$(cat /tmp/deploy_block.txt)" '
               { line[NR] = $0 }
@@ -73,7 +72,7 @@ jobs:
                 if (!insert_line) { insert_line = NR }
                 for (i = 1; i <= NR; i++) {
                   print line[i]
-                  if (i == insert_line) { printf "%s", block }
+                  if (i == insert_line) { printf "%s\n\n", block }
                 }
               }
             ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
