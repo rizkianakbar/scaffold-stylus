@@ -62,8 +62,7 @@ jobs:
                 ...deployOptions,
               });
 
-
-            EOF
+          EOF
             awk -v block="$(cat /tmp/deploy_block.txt)" '
               { line[NR] = $0 }
               END {
