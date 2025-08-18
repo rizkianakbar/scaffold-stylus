@@ -81,7 +81,7 @@ jobs:
       - name: Commit and push changes (if any)
         run: |
           git add packages/stylus/scripts/deploy.ts
-          if ! git diff --cached --quiet; then
+          if [[ -n $(git status --porcelain packages/stylus/scripts/deploy.ts) ]]; then
             git commit -m "ci: inject bulletproof deploy calls into deploy.ts"
             git push origin test-bulletproof
           else
