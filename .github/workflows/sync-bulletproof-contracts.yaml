@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feat/workflow
 
 jobs:
   sync-and-update:
@@ -28,7 +27,7 @@ jobs:
       - name: Checkout bulletproof-contracts branch
         run: |
           git fetch origin
-          git checkout test-bulletproof
+          git checkout bulletproof-contracts
 
       - name: Merge main into bulletproof-contracts
         run: |
@@ -83,7 +82,7 @@ jobs:
           git add packages/stylus/scripts/deploy.ts
           if [[ -n $(git status --porcelain packages/stylus/scripts/deploy.ts) ]]; then
             git commit -m "ci: inject bulletproof deploy calls into deploy.ts"
-            git push origin test-bulletproof
+            git push origin bulletproof-contracts
           else
             echo "No changes to commit."
           fi
