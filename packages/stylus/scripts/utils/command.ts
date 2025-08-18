@@ -4,12 +4,13 @@ import {
   extractGasPriceFromOutput,
   isContractHasConstructor,
 } from "./contract";
+import { getRpcUrlFromChain } from "./network";
 
 export async function buildDeployCommand(
   config: DeploymentConfig,
   deployOptions: DeployOptions,
 ) {
-  let baseCommand = `cargo stylus deploy --endpoint='${config.chain?.rpcUrl}' --private-key='${config.privateKey}'`;
+  let baseCommand = `cargo stylus deploy --endpoint='${getRpcUrlFromChain(config.chain)}' --private-key='${config.privateKey}'`;
 
   if (deployOptions.estimateGas) {
     return `${baseCommand} --estimate-gas`;
@@ -48,7 +49,7 @@ export async function estimateGasPrice(
   config: DeploymentConfig,
   deployOptions: DeployOptions,
 ): Promise<string> {
-  let deployCommand = `cargo stylus deploy --endpoint='${config.chain?.rpcUrl}' --private-key='${config.privateKey}' --no-verify --estimate-gas `;
+  let deployCommand = `cargo stylus deploy --endpoint='${getRpcUrlFromChain(config.chain)}' --private-key='${config.privateKey}' --no-verify --estimate-gas `;
   if (deployOptions.constructorArgs) {
     deployCommand += ` --constructor-args='${deployOptions.constructorArgs.join(" ")}'`;
   }
