@@ -1,4 +1,5 @@
 export * from "./fetchPriceFromUniswap";
+export * from "./fetchPriceFromCoingecko";
 export * from "./notification";
 export * from "./block";
 export * from "./decodeTxData";
